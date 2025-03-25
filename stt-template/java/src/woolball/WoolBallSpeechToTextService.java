@@ -71,18 +71,17 @@ public class WoolBallSpeechToTextService {
     }
     
     String transcribe(Part aditionalData, TranscribeOptions options) throws IOException, InterruptedException {
-    	var bodyForm = new MultipartFormDataBodyPublisher()
-						.add("model", options.model)
-						.add("outputLanguage", options.language)
-						.add("returnTimestamps", options.returnTimestamps ? "true" : "false")
-						.add("webvtt", options.webvtt ? "true" : "false")
-						.add(aditionalData);
+		var bodyForm = new MultipartFormDataBodyPublisher()
+				.add("model", options.model)
+				.add("outputLanguage", options.language)
+				.add("returnTimestamps", options.returnTimestamps ? "true" : "false")
+				.add("webvtt", options.webvtt ? "true" : "false").add(aditionalData);
 
-        HttpRequest request = HttpRequest.newBuilder(woolBallUrl)
-                                        .header("Authorddization", "Bearer " + apiKey)
-                                        .header("Content-Type", bodyForm.contentType())
-                                        .method("POST", bodyForm)
-                                        .build();
+		HttpRequest request = HttpRequest.newBuilder(woolBallUrl)
+				.header("Authorization", "Bearer " + apiKey)
+				.header("Content-Type", bodyForm.contentType())
+				.method("POST", bodyForm)
+				.build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         
